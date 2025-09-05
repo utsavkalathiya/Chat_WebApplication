@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Users</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <h2>All Users</h2>
+  <ul>
+    <% users.forEach(user => { %>
+      <li>
+        <a href="/messages/<%= user._id %>">
+          <%= user.displayName %> (<%= user.email %>)
+        </a>
+      </li>
+    <% }) %>
+  </ul>
+  <p><a href="/profile">Back to profile</a></p>
+</body>
+</html>

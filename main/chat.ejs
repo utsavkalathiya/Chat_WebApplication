@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chat with <%= otherUser.displayName %></title>
+  </head>
+  <body>
+    <h1>Chat with <%= otherUser.displayName %></h1>
+
+    <div id="chat-messages">
+      <% messages.forEach(msg => { %>
+      <p>
+        <strong><%= msg.sender.displayName %>:</strong>
+        <%= msg.text %>
+      </p>
+      <% }) %>
+    </div>
+
+    <form id="chat-form">
+      <input type="text" id="message-input" placeholder="Type a message..." required />
+      <button type="submit">Send</button>
+    </form>
+
+    <p><a href="/profile">⬅ Back to Profile</a></p>
+
+    <!-- Socket.io client -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+      const userId = "<%= user._id %>";
+      const otherUserId = "<%= otherUser._id %>";
+
+      // join room for this user
+      socket.emit("joinRoom", userId);
+
+      // receive new message
+      socket.on("newMessage", (msg) => {
+        const chatDiv = document.getElementById("chat-messages");
+        const p = document.createElement("p");
+        p.innerHTML = `<strong>${msg.senderId === userId ? "You" : "<%= otherUser.displayName %>"}:</strong> ${msg.text}`;
+        chatDiv.appendChild(p);
+        chatDiv.scrollTop = chatDiv.scrollHeight; // auto scroll
+      });
+
+      // handle form submission
+      document.getElementById("chat-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const input = document.getElementById("message-input");
+        const text = input.value.trim();
+        if (!text) return;
+
+        // emit message to server
+        socket.emit("sendMessage", {
+          senderId: userId,
+          receiverId: otherUserId,
+          text,
+        });
+
+        input.value = "";
+      });
+    </script>
+  </body>
+</html>

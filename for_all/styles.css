@@ -1,0 +1,41 @@
+/* styles.css - minimal */
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: system-ui, Roboto, Arial;
+  margin: 0;
+  background: #f6f7fb;
+}
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 18px;
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+}
+.brand a {
+  font-weight: 700;
+  color: #111827;
+  text-decoration: none;
+}
+.container {
+  max-width: 900px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+.card {
+  background: #fff;
+  padding: 18px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+.btn {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: #111827;
+  color: #fff;
+  text-decoration: none;
+}

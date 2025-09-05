@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Your Profile</title>
+  </head>
+  <body>
+    <h1>Your Profile</h1>
+
+    <p><strong>Name:</strong> <%= user.displayName %></p>
+    <p><strong>Email:</strong> <%= user.email %></p>
+
+    <hr />
+
+    <h2>Other Users</h2>
+    <ul>
+      <% if (users && users.length > 0) { %> <% users.forEach(u => { %>
+      <li><%= u.displayName %> (<%= u.email %>)</li>
+      <% }) %> <% } else { %>
+      <li>No other users yet.</li>
+      <% } %>
+    </ul>
+
+    <h2>Other Users</h2>
+    <ul>
+      <% users.forEach(u => { %>
+      <li>
+        <%= u.displayName %> - <%= u.email %>
+        <a href="/chat/<%= u._id %>">Chat</a>
+      </li>
+      <% }) %>
+    </ul>
+
+    <p><a href="/logout">Logout</a></p>
+  </body>
+</html>

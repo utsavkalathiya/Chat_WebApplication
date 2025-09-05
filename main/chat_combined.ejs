@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>MiniChat</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    body { display: flex; margin: 0; font-family: Arial, sans-serif; }
+    .user-list { width: 25%; border-right: 1px solid #ccc; height: 100vh; overflow-y: auto; padding: 16px; background: #f6f6f6; }
+    .user-list a { display: block; padding: 8px; margin-bottom: 4px; text-decoration: none; color: #111; border-radius: 4px; }
+    .user-list a.selected { background: #d0ebff; }
+    .chat-box { width: 75%; display: flex; flex-direction: column; padding: 16px; height: 100vh; }
+    .messages { flex: 1; overflow-y: auto; margin-bottom: 12px; }
+    .message { padding: 6px 12px; margin: 4px 0; border-radius: 12px; max-width: 60%; }
+    .message.self { background-color: #DCF8C6; align-self: flex-end; }
+    .message.other { background-color: #fff; align-self: flex-start; }
+    .send-form { display: flex; }
+    .send-form input { flex: 1; padding: 8px; border-radius: 8px; border:1px solid #ccc; }
+    .send-form button { padding: 8px 12px; margin-left: 8px; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <div class="user-list">
+    <h3>Users</h3>
+    <% users.forEach(user => { %>
+      <a href="/chat/<%= user._id %>" class="<%= selectedUser && user._id.toString() === selectedUser._id.toString() ? 'selected' : '' %>">
+        <%= user.displayName %> (<%= user.email %>)
+      </a>
+    <% }) %>
+  </div>
+
+  <div class="chat-box">
+    <% if (selectedUser) { %>
+      <h3>Chat with <%= selectedUser.displayName %></h3>
+      <div class="messages">
+        <% messages.forEach(msg => { %>
+          <div class="message <%= msg.sender._id.toString() === currentUser._id.toString() ? 'self' : 'other' %>">
+            <strong><%= msg.sender.displayName %>:</strong> <%= msg.text %>
+          </div>
+        <% }) %>
+      </div>
+      <form class="send-form" method="POST" action="/chat/<%= selectedUser._id %>">
+        <input type="text" name="text" placeholder="Type a message" required />
+        <button type="submit">Send</button>
+      </form>
+    <% } else { %>
+      <p>Select a user to start chatting.</p>
+    <% } %>
+  </div>
+</body>
+</html>
